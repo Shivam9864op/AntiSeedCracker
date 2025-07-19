@@ -19,6 +19,10 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT'
     compileOnly 'com.comphenix.protocol:ProtocolLib:5.1.0'
+    
+    // Test dependencies
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.yaml:snakeyaml:2.0'
 }
 
 def targetJavaVersion = 17

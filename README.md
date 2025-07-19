@@ -25,6 +25,25 @@ The plugin can intercept and obfuscate biome data sent to clients to prevent aut
 
 To enable biome obfuscation, set `biome_obfuscation.enabled: true` in your config.yml.
 
+#### Configuration Options
+
+```yaml
+biome_obfuscation:
+  # Enable/disable biome data obfuscation
+  enabled: false
+  
+  # Time (ms) after login to obfuscate biome data
+  login_protection_duration: 10000
+  
+  # Time (ms) after respawn to obfuscate biome data  
+  respawn_protection_duration: 5000
+  
+  # Log when chunks are obfuscated (debug mode)
+  log_obfuscated_chunks: false
+```
+
+The feature automatically detects suspicious biome probing patterns and applies obfuscation when needed, without affecting normal gameplay.
+
 ## Help wanted/Features planned
 
 - [~~Biome name randomization~~](https://wiki.vg/Registry_Data#Biome) ✅ **Implemented as biome data obfuscation**

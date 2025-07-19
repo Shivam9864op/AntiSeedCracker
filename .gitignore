@@ -2,3 +2,8 @@
 /build/
 /.gradle/
 *.iml
+
+# Test results
+/test-results/
+/test-output/
+*.log
