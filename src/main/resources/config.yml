@@ -9,6 +9,22 @@ randomize_hashed_seed:
   # It contains about half the fields the login packet has, mainly the new world information.
   respawn: true
 
+# Settings for biome data obfuscation to counteract seed cracking tools.
+biome_obfuscation:
+  # Whether biome data obfuscation is enabled.
+  # This feature randomizes biome information sent to clients for suspicious requests,
+  # making it difficult for automated tools like SeedcrackerX to extract accurate biome data.
+  enabled: false
+  # Duration (in milliseconds) after login during which biome data is obfuscated.
+  # This protects against seed crackers that probe biomes immediately after joining.
+  login_protection_duration: 10000
+  # Duration (in milliseconds) after respawn during which biome data is obfuscated.
+  # This protects against seed crackers that probe biomes after respawning.
+  respawn_protection_duration: 5000
+  # Whether to log when chunk biome data is obfuscated (useful for debugging).
+  # Warning: This can generate a lot of log messages on busy servers.
+  log_obfuscated_chunks: false
+
 # Warning: All of these actually modify your world. Only enable them if you are okay with that!
 modifiers:
   # Modification of end spikes (bedrock) so that they do not conform to known pillar generation seeds.

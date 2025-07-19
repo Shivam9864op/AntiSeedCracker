@@ -6,6 +6,8 @@ import com.comphenix.protocol.ProtocolManager;
 import me.gadse.antiseedcracker.commands.AntiSeedCrackerCommand;
 import me.gadse.antiseedcracker.listeners.DragonRespawnSpikeModifier;
 import me.gadse.antiseedcracker.listeners.EndCityModifier;
+import me.gadse.antiseedcracker.listeners.PlayerRespawnListener;
+import me.gadse.antiseedcracker.packets.BiomeObfuscator;
 import me.gadse.antiseedcracker.packets.ServerLogin;
 import me.gadse.antiseedcracker.packets.ServerRespawn;
 import org.bukkit.Location;
@@ -31,6 +33,8 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
 
     private DragonRespawnSpikeModifier dragonRespawnspikeModifier;
     private EndCityModifier endCityModifier;
+    private BiomeObfuscator biomeObfuscator;
+    private PlayerRespawnListener playerRespawnListener;
 
     @Override
     public void onEnable() {
@@ -43,6 +47,8 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
         modifiedSpike = new NamespacedKey(this, "modified-spike");
         dragonRespawnspikeModifier = new DragonRespawnSpikeModifier(this);
         endCityModifier = new EndCityModifier(this);
+        biomeObfuscator = new BiomeObfuscator(this);
+        playerRespawnListener = new PlayerRespawnListener(this);
 
         PluginCommand command = getCommand("antiseedcracker");
         if (command == null) {
@@ -59,6 +65,7 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
             protocolManager.removePacketListeners(this);
             dragonRespawnspikeModifier.unregister();
             endCityModifier.unregister();
+            // Note: playerRespawnListener is automatically unregistered with HandlerList.unregisterAll()
         }
 
         if (getConfig().getBoolean("randomize_hashed_seed.login", true)) {
@@ -67,6 +74,11 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
 
         if (getConfig().getBoolean("randomize_hashed_seed.respawn", true)) {
             protocolManager.addPacketListener(new ServerRespawn(this));
+        }
+
+        if (getConfig().getBoolean("biome_obfuscation.enabled", false)) {
+            protocolManager.addPacketListener(biomeObfuscator);
+            getServer().getPluginManager().registerEvents(playerRespawnListener, this);
         }
 
         if (getConfig().getBoolean("modifiers.end_spikes.enabled", false)) {
@@ -169,5 +181,13 @@ public final class AntiSeedCracker extends JavaPlugin implements CommandExecutor
 
     public NamespacedKey getModifiedSpike() {
         return modifiedSpike;
+    }
+
+    /**
+     * Gets the BiomeObfuscator instance for respawn event handling.
+     * @return the BiomeObfuscator instance, or null if biome obfuscation is disabled
+     */
+    public BiomeObfuscator getBiomeObfuscator() {
+        return biomeObfuscator;
     }
 }

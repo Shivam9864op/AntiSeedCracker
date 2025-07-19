@@ -10,12 +10,24 @@ A Spigot plugin making an effort to work against seed cracking mods.
 
 ## Features
 - Randomization of hashed seed on login/respawn/world change
+- **Biome data obfuscation to counteract seed cracking tools**
 - Modification of end spikes
 - Modification of end cities
 
+### Biome Data Obfuscation
+
+The plugin can intercept and obfuscate biome data sent to clients to prevent automated seed cracking tools like SeedcrackerX from extracting accurate biome information. This feature:
+
+- Detects suspicious biome probing patterns (rapid requests, login/respawn timing)
+- Randomizes biome data for suspicious requests while preserving vanilla gameplay
+- Is configurable and can be toggled on/off
+- Includes protection during login and respawn sequences when seed crackers are most active
+
+To enable biome obfuscation, set `biome_obfuscation.enabled: true` in your config.yml.
+
 ## Help wanted/Features planned
 
-- [Biome name randomization](https://wiki.vg/Registry_Data#Biome) (RealisticSeasons does this, but it's a lot of effort)
+- [~~Biome name randomization~~](https://wiki.vg/Registry_Data#Biome) ✅ **Implemented as biome data obfuscation**
 - Modification of more structures, there is a brand-new an API we can make use of (Chunk#getStructures).
 
 ## Build
